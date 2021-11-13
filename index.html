@@ -1,0 +1,70 @@
+<html ng-app="todoApp">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <script src="script.js"></script>
+    <style>
+      .dropdown-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .dropdown-icon {
+        position: absolute;
+        right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" ng-controller="TodoListController as todoList">
+      <div class="dropdown">
+        <div class="dropdown-container">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            aria-describedby="basic-addon1"
+            ng-model="todoList.SearchText"
+            ng-change="todoList.SearchList()"
+            ng-focus="todoList.isShowList = true;"
+            style="text-transform: capitalize"
+          />
+          <a
+            href="#"
+            class="caret dropdown-icon"
+            ng-click="todoList.isShowList = !todoList.isShowList;"
+          ></a>
+        </div>
+        <ul
+          class="dropdown-menu"
+          id="ULOfListData"
+          ng-style="{ 'display' : todoList.isShowList ? 'block' : 'none' }"
+          style="
+            height: 100px;
+            width: 100%;
+            overflow: hidden;
+            overflow-y: scroll;
+          "
+        >
+          <li
+            ng-repeat="todo in todoList.UserList"
+            id="{{todo.Id}}"
+            ng-click="todoList.SearchText=todo.Name;todoList.isShowList = false;todoList.SelectedOptionValue=todo;"
+            style="border-bottom: 1px solid #cdcdcd"
+          >
+            <a href="#" style="text-transform: capitalize">{{todo.Name}}</a>
+          </li>
+          <li ng-if="todoList.isDataFound"><a>Not Found!!</a></li>
+        </ul>
+      </div>
+      {{todoList.SelectedOptionValue | json}}
+    </div>
+  </body>
+</html>
